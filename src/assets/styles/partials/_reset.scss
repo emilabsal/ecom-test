@@ -1,6 +1,5 @@
 a {
-  text-decoration: none;
-  color: #2f80ed;
+  color: inherit;
 }
 
 button {
@@ -14,4 +13,8 @@ input {
   outline: none;
   border: none;
   background-color: transparent;
+}
+
+li {
+  list-style-type: none;
 }

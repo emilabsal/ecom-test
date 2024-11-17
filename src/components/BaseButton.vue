@@ -8,16 +8,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 import type { Button } from '@/types/button'
 
-const { label, design = 'default', size = 'small', circle } = defineProps<Button.Props>()
+const {
+  label,
+  design = 'default',
+  size = 'small',
+  fullWidth = false,
+  circle
+} = defineProps<Button.Props>()
+
+const attrs = useAttrs()
 
 const buttonClass = computed(() => [
   'button',
   `button_${size}`,
   `button_${design}`,
   { button_circle: circle },
+  { button_full: fullWidth },
+  { button_disabled: attrs.disabled }
 ])
 </script>
 
@@ -27,6 +37,15 @@ const buttonClass = computed(() => [
   cursor: pointer;
   white-space: nowrap;
   transition: $transition;
+
+  &_full {
+    width: 100%;
+  }
+
+  &_disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
 
   &_default {
     background-color: #f9f3e5;
@@ -38,13 +57,15 @@ const buttonClass = computed(() => [
     line-height: 120%;
     font-weight: 300;
 
-    &:hover {
-      background-color: #d0f4f0;
-    }
+    &:not(.button_disabled) {
+      &:hover,
+      &:focus-visible {
+        background-color: $neutral;
+      }
 
-    &:active,
-    &:focus-visible {
-      box-shadow: 1px 1px 0 0 $border;
+      &:active {
+        box-shadow: 1px 1px 0 0 $border;
+      }
     }
   }
 
@@ -54,17 +75,21 @@ const buttonClass = computed(() => [
     padding-inline: 12px;
     border-radius: 8px;
     box-shadow: 2px 2px 0 0 $border;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 120%;
-    font-weight: 300;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    background-color: $positive-light;
 
-    &:hover {
-      background-color: #d0f4f0;
-    }
+    &:not(.button_disabled) {
+      &:hover,
+      &:focus-visible {
+        background-color: $positive;
+      }
 
-    &:active,
-    &:focus-visible {
-      box-shadow: 1px 1px 0 0 $border;
+      &:active {
+        box-shadow: 1px 1px 0 0 $border;
+      }
     }
   }
 
@@ -84,11 +109,18 @@ const buttonClass = computed(() => [
   }
 
   &_small {
-    height: 34px;
+    height: 36px;
+    white-space: nowrap;
+  }
+
+  &_medium {
+    height: 40px;
+    white-space: nowrap;
   }
 
   &_large {
-    height: 46px;
+    height: 44px;
+    font-size: 20px;
   }
 
   &_circle {

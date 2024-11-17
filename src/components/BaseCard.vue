@@ -22,6 +22,8 @@ const { title } = defineProps<Card.Props>()
   border: 4px solid $border;
   box-shadow: 12px 12px 0 0 $border;
   overflow: hidden;
+  max-width: 500px;
+  width: 100%;
 
   &__header {
     border-bottom: 4px solid $border;
@@ -34,6 +36,7 @@ const { title } = defineProps<Card.Props>()
     font-size: 36px;
     line-height: 120%;
     font-weight: 600;
+    text-align: center;
   }
 
   &__body {

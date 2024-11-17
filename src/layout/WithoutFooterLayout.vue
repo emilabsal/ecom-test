@@ -1,11 +1,13 @@
 <template>
   <div class="without-footer-layout">
-    <main>
+    <main class="without-footer-layout__main">
       <slot></slot>
     </main>
   </div>
 </template>
 
-<script setup lang="ts"></script>
-
-<style scoped></style>
+<style scoped lang="scss">
+.without-footer-layout__main {
+  padding: 24px;
+}
+</style>

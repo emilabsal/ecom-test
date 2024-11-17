@@ -1,16 +1,42 @@
 <template>
-  <label class="input">
-    <input
-      class="input__field"
-      type="text"
-      v-model="model"
-    />
-  </label>
+  <div class="input-wrapper">
+    <label class="input">
+      <input
+        v-model="model"
+        v-bind="$attrs"
+        class="input__field"
+        type="text"
+      />
+    </label>
+    <p class="input__error">{{ errorMessage }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-const model = defineModel<string | number>({
-  required: true,
+import { ref, watch } from 'vue'
+
+const model = defineModel<string>({
+  required: true
+})
+
+const emit = defineEmits<{
+  (e: 'is-error', value: boolean): void
+}>()
+
+const errorMessage = ref('')
+
+function getError(value: string) {
+  if (!value) return 'Поле обязательно для заполнения'
+  if (value.length < 3 || value.length > 50) return 'Длина должна быть от 3 до 50 символов'
+
+  return ''
+}
+
+watch(model, (value) => {
+  errorMessage.value = getError(value)
+  const isError = errorMessage.value ? true : false
+
+  emit('is-error', isError)
 })
 </script>
 
@@ -28,6 +54,14 @@ const model = defineModel<string | number>({
     line-height: 120%;
     font-weight: 500;
     flex-grow: 1;
+  }
+
+  &__error {
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+    color: $negative;
   }
 }
 </style>

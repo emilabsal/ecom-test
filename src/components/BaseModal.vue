@@ -42,8 +42,6 @@ const { title } = defineProps<{ title: string }>()
   @include flex($ai: start);
 
   &__inner {
-    max-width: 600px;
-    width: 100%;
     background-color: $bg-card;
     border: 4px solid $border;
     border-radius: 16px;

@@ -106,17 +106,17 @@ import BaseTable from '@/components/BaseTable.vue'
 import BaseCard from '@/components/BaseCard.vue'
 import BaseCheckbox from '@/components/BaseCheckbox.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { useApi } from '@/composables/useApi'
 import BaseModal from '@/components/BaseModal.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import { useNotesStore } from '@/stores/notes'
+import { useNotes } from '@/composables/useNotes'
 
 const store = useNotesStore()
 
 const model = ref([])
 const name = ref('e')
 
-const { isLoading } = useApi()
+const { isLoading } = useNotes()
 
 const table = computed(() => {
   return {

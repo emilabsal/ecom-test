@@ -4,6 +4,7 @@ export namespace Button {
     design?: Design
     size?: Size
     circle?: boolean
+    fullWidth?: boolean
   }
 
   type Design = 'default' | 'error' | 'positive'

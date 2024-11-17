@@ -9,19 +9,20 @@
       </tr>
     </thead>
     <tbody>
-      <TransitionGroup name="list" mode="out-in">
+      <TransitionGroup name="slide-right">
         <tr v-for="row in rows" :key="row.id">
           <td class="table__cell" v-for="column in columns" :key="column.id">
             <slot :name="column.id" :row="row"></slot>
           </td>
         </tr>
-    </TransitionGroup>
+      </TransitionGroup>
     </tbody>
   </table>
 </template>
 
 <script setup lang="ts">
 import type { Table } from '@/types/table'
+import BaseAnimation from './BaseAnimation.vue';
 
 defineProps<Table.Props>()
 </script>
@@ -65,14 +66,14 @@ defineProps<Table.Props>()
   }
 }
 
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all .2s ease;
 }
-.list-enter-from,
-.list-leave-to {
+.slide-right-enter-from,
+.slide-right-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(40px);
 }
 
 </style>

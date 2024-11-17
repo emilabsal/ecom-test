@@ -38,6 +38,7 @@ const { title } = defineProps<Card.Props>()
 
   &__body {
     overflow: hidden;
+    padding: 20px;
   }
 }
 </style>

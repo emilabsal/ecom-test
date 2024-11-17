@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <p class="footer__text">All Rights Are Reserved © 2024</p>
+    <p class="footer__text">All rights reserved © 2024</p>
   </footer>
 </template>
 

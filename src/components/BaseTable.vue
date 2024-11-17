@@ -9,11 +9,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in rows" :key="row.id">
-        <td class="table__cell" v-for="column in columns" :key="column.id">
-          <slot :name="column.id" :row="row"></slot>
-        </td>
-      </tr>
+      <TransitionGroup name="list" mode="out-in">
+        <tr v-for="row in rows" :key="row.id">
+          <td class="table__cell" v-for="column in columns" :key="column.id">
+            <slot :name="column.id" :row="row"></slot>
+          </td>
+        </tr>
+    </TransitionGroup>
     </tbody>
   </table>
 </template>
@@ -33,7 +35,7 @@ defineProps<Table.Props>()
   border: none;
 
   tr {
-    border-bottom: 4px solid $border;
+    border-bottom: 1px solid rgba($border, .2);
   }
 
   tbody tr:last-child {
@@ -53,14 +55,24 @@ defineProps<Table.Props>()
   &__header {
     font-size: 20px;
     line-height: 120%;
-    font-weight: 400;
-    padding: 8px 16px;
+    padding: 16px 16px;
+    font-weight: 600;
     text-align: left;
   }
 
   &__cell {
-    padding: 4px 16px;
+    padding: 8px 16px;
   }
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 
 </style>

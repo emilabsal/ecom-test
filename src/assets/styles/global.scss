@@ -1,11 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400..700&family=Comfortaa:wght@300..700&family=Geist+Mono:wght@100..900&display=swap');
 @import './partials/reset';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
+  font-family: 'Anonymous Pro', serif;
 }

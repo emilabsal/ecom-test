@@ -16,7 +16,7 @@ const {
   design = 'default',
   size = 'small',
   fullWidth = false,
-  circle
+  circle = false
 } = defineProps<Button.Props>()
 
 const attrs = useAttrs()

@@ -21,7 +21,7 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table__body">
       <tr v-if="!checkedRows.length">
         <td
           class="table__cell table__cell_empty"
@@ -36,6 +36,7 @@
           group
         >
           <tr
+            :class="['table__row', { table__row_active: row.checkbox }]"
             v-for="row in checkedRows"
             :key="row.id"
           >
@@ -95,25 +96,6 @@ const checkedRows = computed(() => {
 .table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 8px;
-
-  tr {
-    border-bottom: 1px solid rgba($black, 0.2);
-  }
-
-  tbody tr:last-child {
-    border: none;
-  }
-
-  thead {
-    position: sticky;
-  }
-
-  tbody {
-    overflow: scroll;
-    width: 100%;
-    max-height: 100%;
-  }
 
   &__header {
     font-size: 20px;
@@ -121,6 +103,20 @@ const checkedRows = computed(() => {
     padding: 16px 16px;
     font-weight: 600;
     text-align: left;
+  }
+
+  &__body {
+    .table__row:last-child {
+      border: none;
+    }
+  }
+
+  &__row {
+    border-bottom: 1px solid rgba($black, 0.2);
+
+    &_active {
+      background-color: $positive;
+    }
   }
 
   &__cell {
@@ -147,14 +143,4 @@ const checkedRows = computed(() => {
     }
   }
 }
-
-// .slide-right-enter-active,
-// .slide-right-leave-active {
-//   transition: $transition ease;
-// }
-// .slide-right-enter-from,
-// .slide-right-leave-to {
-//   opacity: 0;
-//   transform: translateX(30px);
-// }
 </style>

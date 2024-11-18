@@ -9,17 +9,18 @@ export default defineConfig({
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
   },
   css: {
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @import "./src/assets/styles/partials/_variables.scss";
-          @import "./src/assets/styles/partials/_mixins.scss";
-        `,
-      },
-    },
-  },
+          @use "./src/assets/styles/partials/_variables.scss" as *;
+          @use "./src/assets/styles/partials/_mixins.scss" as *;
+          @use "./src/assets/styles/partials/_text.scss" as *;
+        `
+      }
+    }
+  }
 })

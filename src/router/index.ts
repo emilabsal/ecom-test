@@ -3,7 +3,7 @@ import DefaultLayout from '@/layout/DefaultLayout.vue'
 import WithoutFooterLayout from '@/layout/WithoutFooterLayout.vue'
 import HomeView from '@/views/HomeView.vue'
 import NotesListView from '@/views/NotesListView/index.vue'
-import NotesListViewId from '@/views/NotesListView/id.vue'
+import NotesListViewNote from '@/views/NotesListView/note.vue'
 import AddNoteView from '@/views/AddNoteView.vue'
 
 const router = createRouter({
@@ -26,9 +26,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/:id',
-      name: 'NotesListId',
-      component: NotesListViewId,
+      path: '/notes/:name',
+      name: 'name',
+      component: NotesListViewNote,
       meta: {
         layout: DefaultLayout
       }

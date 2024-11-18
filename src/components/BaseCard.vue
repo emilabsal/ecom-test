@@ -17,16 +17,16 @@ const { title } = defineProps<Card.Props>()
 
 <style scoped lang="scss">
 .card {
-  background-color: $bg-card;
+  background-color: $neutral-light;
   border-radius: 24px;
-  border: 4px solid $border;
-  box-shadow: 12px 12px 0 0 $border;
+  border: 4px solid $black;
+  box-shadow: 12px 12px 0 0 $black;
   overflow: hidden;
   max-width: 500px;
   width: 100%;
 
   &__header {
-    border-bottom: 4px solid $border;
+    border-bottom: 4px solid $black;
     padding: 24px 16px;
     width: 100%;
     @include flex;
@@ -40,7 +40,7 @@ const { title } = defineProps<Card.Props>()
   }
 
   &__body {
-    overflow: hidden;
+    overflow: auto;
     padding: 20px;
   }
 }

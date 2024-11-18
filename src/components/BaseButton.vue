@@ -37,25 +37,12 @@ const buttonClass = computed(() => [
   cursor: pointer;
   white-space: nowrap;
   transition: $transition;
-
-  &_full {
-    width: 100%;
-  }
-
-  &_disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 0 $black;
+  border: 2px solid $black;
 
   &_default {
-    background-color: #f9f3e5;
-    border: 2px solid $border;
-    padding-inline: 12px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 0 0 $border;
-    font-size: 18px;
-    line-height: 120%;
-    font-weight: 300;
+    background-color: $neutral-light;
 
     &:not(.button_disabled) {
       &:hover,
@@ -64,21 +51,12 @@ const buttonClass = computed(() => [
       }
 
       &:active {
-        box-shadow: 1px 1px 0 0 $border;
+        box-shadow: 1px 1px 0 0 $black;
       }
     }
   }
 
   &_positive {
-    background-color: #8cd4cb;
-    border: 2px solid $border;
-    padding-inline: 12px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 0 0 $border;
-    font-size: 18px;
-    line-height: 120%;
-    font-weight: 400;
-    letter-spacing: 0.02em;
     background-color: $positive-light;
 
     &:not(.button_disabled) {
@@ -88,45 +66,57 @@ const buttonClass = computed(() => [
       }
 
       &:active {
-        box-shadow: 1px 1px 0 0 $border;
+        box-shadow: 1px 1px 0 0 $black;
       }
     }
   }
 
-  &_error {
-    background-color: #f6a89e;
-    border: 2px solid $border;
-    padding-inline: 12px;
+  &_negative {
+    background-color: $negative-light;
 
-    &:hover {
-      background-color: #fff0ee;
-    }
+    &:not(.button_disabled) {
+      &:hover,
+      &:focus-visible {
+        background-color: $negative;
+      }
 
-    &:active,
-    &:focus-visible {
-      background-color: darken(#f6a89e, 20%);
+      &:active {
+        box-shadow: 1px 1px 0 0 $black;
+      }
     }
   }
 
   &_small {
     height: 36px;
-    white-space: nowrap;
+    @extend .text-18;
+    padding-inline: 12px;
   }
 
   &_medium {
     height: 40px;
-    white-space: nowrap;
+    @extend .text-20;
+    padding-inline: 12px;
   }
 
   &_large {
     height: 44px;
-    font-size: 20px;
+    @extend .text-20;
+    padding-inline: 12px;
   }
 
   &_circle {
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     padding: initial;
+  }
+
+  &_full {
+    width: 100%;
+  }
+
+  &_disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 }
 </style>

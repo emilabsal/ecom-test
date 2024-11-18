@@ -8,12 +8,19 @@
         type="text"
       />
     </label>
-    <p class="input__error">{{ errorMessage }}</p>
+    <p
+      v-if="validator"
+      class="input__error"
+    >
+      {{ errorMessage }}
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+
+const { validator = false } = defineProps<{ validator?: boolean }>()
 
 const model = defineModel<string>({
   required: true
@@ -42,9 +49,9 @@ watch(model, (value) => {
 
 <style scoped lang="scss">
 .input {
-  border: 2px solid $border;
+  border: 2px solid $black;
   border-radius: 8px;
-  box-shadow: 2px 2px 0 0 $border;
+  box-shadow: 2px 2px 0 0 $black;
   padding: 8px 12px;
   @include flex;
   width: 100%;

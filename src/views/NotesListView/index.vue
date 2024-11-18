@@ -17,16 +17,13 @@
         :rows="table.rows"
       >
         <template #check="{ row }">
-          <BaseCheckbox
-            v-model="model"
-            :value="row.id"
-          />
+          <BaseCheckbox v-model="row.checkbox" />
         </template>
         <template #number="{ row }">
-          <p class="notes__text">{{ row.id + 1 }}</p>
+          {{ row.id + 1 }}
         </template>
         <template #name="{ row }">
-          <p class="notes__text">{{ row.name }}</p>
+          {{ row.name }}
         </template>
         <template #buttons="{ row }">
           <div class="notes__buttons">
@@ -39,44 +36,50 @@
               @click="openDeleteModal(row)"
             />
           </div>
-          <BaseModal
-            class="notes-edit"
-            v-if="isShowModal"
-            title="Редактировать"
-            @close="onEditCloseModal"
-          >
-            <div class="notes-edit__body">
-              <BaseInput v-model="data.model" />
-              <div class="notes-edit__buttons">
-                <BaseButton
-                  class="notes-edit__button"
-                  label="Отмена"
-                  size="large"
-                  @click="onEditCloseModal"
-                />
-                <BaseButton
-                  class="notes-edit__button"
-                  label="Сохранить"
-                  design="positive"
-                  size="large"
-                  @click="onEditSaveModal"
-                />
-              </div>
-            </div>
-          </BaseModal>
         </template>
         <template #link="{ row }">
-          {{ row }}
           <RouterLink
             class="notes__text"
-            to="/"
-            >Ссылка</RouterLink
+            :to="{
+              name: 'name',
+              params: { id: row.id, name: row.name.replace(/\s/g, '-') }
+            }"
+            >Подробнее</RouterLink
           >
         </template>
       </BaseTable>
     </BaseCard>
+
+    <!-- modals -->
+    <!-- edit -->
     <BaseModal
-      v-if="isShowDeleteModal && deletedNote"
+      class="notes-edit"
+      v-if="isShowModal"
+      title="Редактировать"
+      @close="onEditCloseModal"
+    >
+      <div class="notes-edit__body">
+        <BaseInput v-model="data.modelName" />
+        <div class="notes-edit__buttons">
+          <BaseButton
+            class="notes-edit__button"
+            label="Отмена"
+            size="large"
+            @click="onEditCloseModal"
+          />
+          <BaseButton
+            class="notes-edit__button"
+            label="Сохранить"
+            design="positive"
+            size="large"
+            @click="onEditSaveModal"
+          />
+        </div>
+      </div>
+    </BaseModal>
+    <!-- delete -->
+    <BaseModal
+      v-if="isShowDeleteModal"
       class="notes-delete"
       title="Удалить"
       @close="isShowDeleteModal = false"
@@ -86,7 +89,7 @@
           class="notes-delete__button"
           label="Отмена"
           size="large"
-          @click="isShowDeleteModal = false"
+          @click="onDeleteCloseModal"
         />
         <BaseButton
           class="notes-delete__button"
@@ -110,24 +113,24 @@ import BaseModal from '@/components/BaseModal.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import { useNotesStore } from '@/stores/notes'
 import { useNotes } from '@/composables/useNotes'
+import type { Note } from '@/types/note'
+import { storeToRefs } from 'pinia'
+import type { Table } from '@/types/table'
 
 const store = useNotesStore()
-
-const model = ref([])
-const name = ref('e')
+const { notes } = storeToRefs(store)
 
 const { isLoading } = useNotes()
 
 const table = computed(() => {
   return {
     columns: [
-      { id: 'check' },
-      { id: 'number', label: 'Номер' },
+      { id: 'number', label: 'Номер', position: 'center' },
       { id: 'name', label: 'Наименование' },
       { id: 'buttons' },
       { id: 'link', label: 'Ссылка' }
-    ],
-    columnsScheme: ['min-content', 'auto', 'min-content', 'auto', 'max-content', 'auto'],
+    ] as Table.Column[],
+    columnsScheme: ['auto', 'min-content', 'auto', 'max-content', 'auto'],
     rows: store.notes
   }
 })
@@ -135,39 +138,49 @@ const table = computed(() => {
 const isShowModal = ref(false)
 const data = ref()
 
-function openModal(row: any) {
+function openModal(row: Note.Item) {
   isShowModal.value = true
+  document.body.classList.add('scroll-lock')
 
   data.value = {
     id: row.id,
-    model: row.model
+    modelName: row.modelName
   }
 }
 
 function onEditCloseModal() {
   isShowModal.value = false
-  store.notes.find((note: any) => note.id === data.value.id).model = data.value.model
+  notes.value.find((note: Note.Item) => note.id === data.value.id)!.modelName = data.value.modelName
+  document.body.classList.remove('scroll-lock')
 }
 
 function onEditSaveModal() {
   isShowModal.value = false
-  store.notes.find((note: any) => note.id === data.value.id).model = data.value.model
-  store.notes.find((note: any) => note.id === data.value.id).name = data.value.model
+  store.notes.find((note: Note.Item) => note.id === data.value.id)!.modelName = data.value.modelName
+  store.notes.find((note: Note.Item) => note.id === data.value.id)!.name = data.value.modelName
+  document.body.classList.remove('scroll-lock')
 }
 
 // delete modal
 const isShowDeleteModal = ref(false)
 const deletedNote = ref()
 
-function openDeleteModal(row: any) {
+function openDeleteModal(row: Note.Item) {
   isShowDeleteModal.value = true
   deletedNote.value = row
+  document.body.classList.add('scroll-lock')
+}
+
+function onDeleteCloseModal() {
+  isShowDeleteModal.value = false
+  document.body.classList.remove('scroll-lock')
 }
 
 function onDelete() {
   isShowDeleteModal.value = false
-  store.notes = store.notes.filter((note: any) => note.id !== deletedNote.value.id)
+  store.notes = store.notes.filter((note: Note.Item) => note.id !== deletedNote.value.id)
   deletedNote.value = null
+  document.body.classList.remove('scroll-lock')
 }
 </script>
 

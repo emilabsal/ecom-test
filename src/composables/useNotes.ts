@@ -12,17 +12,18 @@ export function useNotes() {
   async function getNotes() {
     isLoading.value = true
     try {
-      const response = await fetch('https://dummyjson.com/todos?limit=10')
+      const response = await fetch('https://dummyjson.com/todos?limit=20')
       if (response.ok) {
         const data: Note.TodosResponse = await response.json()
         notes.value = data.todos.map((note: Note.Todo, index: number) => {
           return {
             id: index,
-            checkbox: index,
+            checkbox: false,
             name: note.todo,
             modelName: note.todo
           }
         })
+        localStorage.setItem('notes', JSON.stringify(notes.value))
       } else {
         throw new Error(String(response.status))
       }
@@ -39,17 +40,17 @@ export function useNotes() {
     getNotes()
   }
 
-  function addNote(name: string): void {
+  function addNote(name: string, checkbox: boolean): void {
     notes.value.push({
-      id: store.notes.length,
-      checkbox: store.notes.length + 1,
+      id: Math.max(...store.notes.map((note) => note.id)) + 1,
+      checkbox: checkbox,
       name: name,
-      modelName: ''
+      modelName: name
     })
   }
 
   function deleteNote(id: number) {
-    notes.value = notes.value.filter((note: any) => note.id !== id)
+    notes.value = notes.value.filter((note: Note.Item) => note.id !== id)
   }
 
   return {

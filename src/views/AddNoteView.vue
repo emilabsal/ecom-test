@@ -10,6 +10,7 @@
       >
         <BaseInput
           v-model="name"
+          validator
           @is-error="(value) => (isError = value)"
         />
         <div class="add-note-form__controls">
@@ -41,16 +42,15 @@ import { useRouter } from 'vue-router'
 import { useNotes } from '@/composables/useNotes'
 
 const name = ref('')
-const done = ref([])
-const router = useRouter()
-const notesComposable = useNotes()
+const done = ref(false)
 const isError = ref(true)
 
-async function onSubmit() {
-  if (!name.value) return
+const router = useRouter()
+const notesComposable = useNotes()
 
-  notesComposable.addNote(name.value)
-  router.push('/')
+async function onSubmit() {
+  notesComposable.addNote(name.value, done.value)
+  router.push('/notes')
 }
 </script>
 

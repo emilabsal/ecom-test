@@ -7,6 +7,6 @@ export namespace Button {
     fullWidth?: boolean
   }
 
-  type Design = 'default' | 'error' | 'positive'
+  type Design = 'default' | 'negative' | 'positive'
   type Size = 'small' | 'large'
 }

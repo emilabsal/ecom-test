@@ -5,11 +5,10 @@
         v-model="model"
         class="checkbox__input"
         type="checkbox"
-        :value="value"
         hidden
       />
       <BaseIcon
-        v-if="model.includes(value)"
+        v-if="model"
         class="checkbox__check"
         name="check"
       />
@@ -20,16 +19,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { Checkbox } from '@/types/checkbox'
 import BaseIcon from './BaseIcon.vue'
 
-const { value, label } = defineProps<{ value: string | number; label?: string }>()
+const { label } = defineProps<Checkbox.Props>()
 
-const boxClass = computed(() => [
-  'checkbox__box',
-  { checkbox__box_checked: model.value.includes(value) }
-])
+const boxClass = computed(() => ['checkbox__box', { checkbox__box_checked: model.value }])
 
-const model = defineModel<(string | number)[]>({
+const model = defineModel<boolean>({
   required: true
 })
 </script>
@@ -42,11 +39,11 @@ const model = defineModel<(string | number)[]>({
   &__box {
     position: relative;
     width: 28px;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     background-color: $neutral-light;
-    border: 3px solid $border;
+    border: 3px solid $black;
     border-radius: 6px;
-    box-shadow: 2px 2px 0 0 $border;
+    box-shadow: 2px 2px 0 0 $black;
 
     &_checked {
       background-color: $negative;

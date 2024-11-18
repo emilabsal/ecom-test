@@ -2,17 +2,17 @@
   <dialog
     class="modal"
     open
-    @click.self="$emit('close')"
+    @click.self="onClose"
   >
     <div class="modal__inner">
       <div class="modal__header">
         <span class="modal__title">{{ title }}</span>
         <BaseButton
           class="modal__close"
-          design="error"
+          design="negative"
           size="large"
           circle
-          @click="$emit('close')"
+          @click="onClose"
         >
           <BaseIcon name="close" />
         </BaseButton>
@@ -29,6 +29,15 @@ import BaseIcon from './BaseIcon.vue'
 import BaseButton from './BaseButton.vue'
 
 const { title } = defineProps<{ title: string }>()
+
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
+
+function onClose() {
+  document.body.classList.remove('scroll-lock')
+  emit('close')
+}
 </script>
 
 <style scoped lang="scss">
@@ -38,15 +47,17 @@ const { title } = defineProps<{ title: string }>()
   z-index: 1;
   height: 100svh;
   width: 100%;
-  background-color: rgba($border, 0.1);
+  background-color: rgba($black, 0.5);
   @include flex($ai: start);
 
   &__inner {
-    background-color: $bg-card;
-    border: 4px solid $border;
+    background-color: $neutral-light;
+    border: 4px solid $black;
     border-radius: 16px;
-    box-shadow: 12px 12px 0 0 $border;
+    box-shadow: 12px 12px 0 0 $black;
     margin-top: 100px;
+    max-width: 600px;
+    width: 100%;
   }
 
   &__header {
@@ -54,7 +65,7 @@ const { title } = defineProps<{ title: string }>()
     padding: 16px;
     width: 100%;
     position: relative;
-    border-bottom: 4px solid $border;
+    border-bottom: 4px solid $black;
   }
 
   &__body {

@@ -3,21 +3,17 @@ import { ref, watch } from 'vue'
 import type { Note } from '@/types/note'
 
 export const useNotesStore = defineStore('notes', () => {
-  // const data = ref([])
-  const notes = ref<Note.Item[]>([])
+  const notes = ref<Note.Item[]>(JSON.parse(localStorage.getItem('notes') as string) || [])
 
-  // watch(data, () => {
-  //   notes.value = (data.value as any)?.todos?.map((note: any, index: any) => {
-  //     return {
-  //       id: index,
-  //       name: note.todo,
-  //       model: note.todo
-  //     }
-  //   })
-  // })
+  watch(
+    notes,
+    () => {
+      localStorage.setItem('notes', JSON.stringify(notes.value))
+    },
+    { deep: true }
+  )
 
   return {
     notes
-    // data
   }
 })
